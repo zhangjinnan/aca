@@ -43,16 +43,16 @@ public class AcaCore {
             // 初始化任务集合
             tl = initRandomArray(taskNum);
             logger.info(Arrays.toString(tl.toArray()));
-            //debug
-    //        int debug_t[] = {70, 93, 11, 36, 53, 7, 16, 93, 21, 64, 81, 28, 40, 57, 64, 98, 73, 99, 80, 22, 12, 16, 65, 91, 24, 80, 97, 77, 7, 20, 93, 23, 96, 42, 19, 24, 88, 92, 29, 43, 99, 52, 3, 66, 75, 65, 79, 20, 88, 10, 2, 7, 14, 63, 8, 50, 76, 24, 9, 70, 98, 57, 66, 88, 81, 51, 75, 71, 91, 79, 27, 84, 37, 49, 66, 28, 87, 1, 24, 21, 71, 97, 77, 49, 86, 62, 13, 76, 33, 6, 39, 53, 23, 99, 59, 13, 64, 51, 71, 73};
-     //       for(int i=0;i<debug_t.length;i++){ tl.add(debug_t[i]); }
+            //debug 固测数据
+            //int debug_t[] = {70, 93, 11, 36, 53, 7, 16, 93, 21, 64, 81, 28, 40, 57, 64, 98, 73, 99, 80, 22, 12, 16, 65, 91, 24, 80, 97, 77, 7, 20, 93, 23, 96, 42, 19, 24, 88, 92, 29, 43, 99, 52, 3, 66, 75, 65, 79, 20, 88, 10, 2, 7, 14, 63, 8, 50, 76, 24, 9, 70, 98, 57, 66, 88, 81, 51, 75, 71, 91, 79, 27, 84, 37, 49, 66, 28, 87, 1, 24, 21, 71, 97, 77, 49, 86, 62, 13, 76, 33, 6, 39, 53, 23, 99, 59, 13, 64, 51, 71, 73};
+            //for(int i=0;i<debug_t.length;i++){ tl.add(debug_t[i]); }
             tasks.setTasks(tl);
             // 初始化节点集合
             nl = initRandomArray(nodeNum);
             logger.info(Arrays.toString(nl.toArray()));
             // debug
-    //        int debug_n[] = {49, 29, 70, 98, 80, 9, 84, 57, 10, 100};
-     //       for(int i=0;i<debug_n.length;i++) { nl.add(debug_n[i]); }
+            //int debug_n[] = {49, 29, 70, 98, 80, 9, 84, 57, 10, 100};
+            //for(int i=0;i<debug_n.length;i++) { nl.add(debug_n[i]); }
             nodes.setNodes(nl);
             //aca算法
             return aca(tasks, nodes,iteratorNum,antNum);
@@ -241,7 +241,6 @@ public class AcaCore {
         int [][]pathMatrix_oneAnt = (int[][])pathMatrix_allAnt.get(minIndex);
         for (int taskIndex=0; taskIndex<taskNum; taskIndex++) {
             for (int nodeIndex=0; nodeIndex<nodeNum; nodeIndex++) {
-                //double[][] pathMatrix_oneAnt=(double[][])pathMatrix_allAnt.get(minIndex);
                 if (pathMatrix_oneAnt!=null) {
                     if (pathMatrix_oneAnt[taskIndex][nodeIndex] == 1) {
                         pheromoneMatrix[taskIndex][nodeIndex] *= q;
@@ -270,6 +269,7 @@ public class AcaCore {
             }
 
             // 若本行信息素全都相等，则随机选择一个作为最大信息素
+            //这里可以细化，考虑如果有两条气味最多的路，随机选择一条
             if (isAllSame==true) {
                 Random random = new Random();
                 maxIndex =random.nextInt((nodeNum-1) + 0);
@@ -277,11 +277,11 @@ public class AcaCore {
             }
 
             // 将本行最大信息素的下标加入maxPheromoneMatrix
-            maxPheromoneMatrix.add(maxIndex);
+            maxPheromoneMatrix.set(taskIndex, maxIndex);
 
             // 将本次迭代的蚂蚁临界编号加入criticalPointMatrix(该临界点之前的蚂蚁的任务分配根据最大信息素原则，而该临界点之后的蚂蚁采用随机分配策略)
             if (sumPheromone!=0) {
-                criticalPointMatrix.add((int) Math.round(antNum * (maxPheromone / sumPheromone)));
+                criticalPointMatrix.set(taskIndex, (int) (antNum * (maxPheromone / sumPheromone)));
             }
         }
     }
@@ -312,7 +312,6 @@ public class AcaCore {
             maxPheromoneMatrix.add(maxIndex);
             // 将本次迭代的蚂蚁临界编号加入criticalPointMatrix(该临界点之前的蚂蚁的任务分配根据最大信息素原则，而该临界点之后的蚂蚁采用随机分配策略)
             if (sumPheromone != 0) {
-                //criticalPointMatrix.add((int) Math.round(antNum * (maxPheromone / sumPheromone)));
                 criticalPointMatrix.add(0);
             }
         }
