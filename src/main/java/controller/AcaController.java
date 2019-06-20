@@ -13,11 +13,10 @@ import com.alibaba.fastjson.JSON;
 @EnableAutoConfiguration
 @RestController
 public class AcaController {
-    @RequestMapping("/{iteratorNum}/{antNum}")
-    public String sayHello(@PathVariable Integer iteratorNum,@PathVariable Integer antNum) {
+    @RequestMapping(value="/{iteratorNum}/{antNum}",produces = "application/json")
+    public HashMap<Integer, List> sayHello(@PathVariable Integer iteratorNum,@PathVariable Integer antNum) {
         AcaCore ac=new AcaCore();
         HashMap<Integer, List> map=ac.exe(iteratorNum,antNum);
-        return JSON.toJSONString(map);
-       // return "Hello,World!";
+        return map;
     }
 }
