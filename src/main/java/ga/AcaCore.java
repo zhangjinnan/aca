@@ -281,7 +281,8 @@ public class AcaCore {
 
             // 将本次迭代的蚂蚁临界编号加入criticalPointMatrix(该临界点之前的蚂蚁的任务分配根据最大信息素原则，而该临界点之后的蚂蚁采用随机分配策略)
             if (sumPheromone!=0) {
-                criticalPointMatrix.set(taskIndex, (int) (antNum * (maxPheromone / sumPheromone)));
+                //再次缩小临街值，防止过早收敛造成局部最优解
+                criticalPointMatrix.set(taskIndex, (int) Math.round(antNum * (maxPheromone / sumPheromone)));
             }
         }
     }
