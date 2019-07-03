@@ -41,18 +41,18 @@ public class AcaCore {
             taskNum = tasks.getTaskNum();
             nodeNum = nodes.getNodeNum();
             // 初始化任务集合
-            tl = initRandomArray(taskNum);
-            logger.info(Arrays.toString(tl.toArray()));
+            //tl = initRandomArray(taskNum);
+            //logger.info(Arrays.toString(tl.toArray()));
             //debug 固测数据
-            //int debug_t[] = {70, 93, 11, 36, 53, 7, 16, 93, 21, 64, 81, 28, 40, 57, 64, 98, 73, 99, 80, 22, 12, 16, 65, 91, 24, 80, 97, 77, 7, 20, 93, 23, 96, 42, 19, 24, 88, 92, 29, 43, 99, 52, 3, 66, 75, 65, 79, 20, 88, 10, 2, 7, 14, 63, 8, 50, 76, 24, 9, 70, 98, 57, 66, 88, 81, 51, 75, 71, 91, 79, 27, 84, 37, 49, 66, 28, 87, 1, 24, 21, 71, 97, 77, 49, 86, 62, 13, 76, 33, 6, 39, 53, 23, 99, 59, 13, 64, 51, 71, 73};
-            //for(int i=0;i<debug_t.length;i++){ tl.add(debug_t[i]); }
+            int debug_t[] = {70, 93, 11, 36, 53, 7, 16, 93, 21, 64, 81, 28, 40, 57, 64, 98, 73, 99, 80, 22, 12, 16, 65, 91, 24, 80, 97, 77, 7, 20, 93, 23, 96, 42, 19, 24, 88, 92, 29, 43, 99, 52, 3, 66, 75, 65, 79, 20, 88, 10, 2, 7, 14, 63, 8, 50, 76, 24, 9, 70, 98, 57, 66, 88, 81, 51, 75, 71, 91, 79, 27, 84, 37, 49, 66, 28, 87, 1, 24, 21, 71, 97, 77, 49, 86, 62, 13, 76, 33, 6, 39, 53, 23, 99, 59, 13, 64, 51, 71, 73};
+            for(int i=0;i<debug_t.length;i++){ tl.add(debug_t[i]); }
             tasks.setTasks(tl);
             // 初始化节点集合
-            nl = initRandomArray(nodeNum);
-            logger.info(Arrays.toString(nl.toArray()));
+            //nl = initRandomArray(nodeNum);
+            //logger.info(Arrays.toString(nl.toArray()));
             // debug
-            //int debug_n[] = {49, 29, 70, 98, 80, 9, 84, 57, 10, 100};
-            //for(int i=0;i<debug_n.length;i++) { nl.add(debug_n[i]); }
+            int debug_n[] = {49, 29, 70, 98, 80, 9, 84, 57, 10, 100};
+            for(int i=0;i<debug_n.length;i++) { nl.add(debug_n[i]); }
             nodes.setNodes(nl);
             //aca算法
             return aca(tasks, nodes,iteratorNum,antNum);
@@ -188,15 +188,15 @@ public class AcaCore {
      * @param pathMatrix_allAnt 所有蚂蚁的路径
      */
     public List calTime_oneIt(HashMap pathMatrix_allAnt) {
-        ArrayList<Integer> time_allAnt=new ArrayList();
+        ArrayList<Double> time_allAnt=new ArrayList();
         for (int antIndex=0; antIndex<pathMatrix_allAnt.size(); antIndex++) {
             // 获取第antIndex只蚂蚁的行走路径
             int[][] pathMatrix=(int[][])pathMatrix_allAnt.get(antIndex);
             // 获取处理时间最长的节点 对应的处理时间
-            int maxTime = -1;
+            double maxTime = -1;
             for (int nodeIndex=0; nodeIndex<nodeNum; nodeIndex++) {
                 // 计算节点taskIndex的任务处理时间
-                int time = 0;
+                double time = 0.0;
                 for (int taskIndex=0; taskIndex<taskNum; taskIndex++) {
                     if(pathMatrix[taskIndex][nodeIndex]==1){
                         time +=timeMatrix[taskIndex][nodeIndex];
@@ -228,11 +228,11 @@ public class AcaCore {
 
         // 找出任务处理时间最短的蚂蚁编号
         //Long minTime = 0L;
-        Long minTime=Long.MAX_VALUE;
+        Double minTime=Double.MAX_VALUE;
         int minIndex = -1;
         for (int antIndex=0; antIndex<antNum; antIndex++) {
-            if (Integer.parseInt(timeArray_oneIt.get(antIndex).toString()) < minTime) {
-                minTime = Long.parseLong(timeArray_oneIt.get(antIndex).toString()) ;
+            if (Double.parseDouble(timeArray_oneIt.get(antIndex).toString()) < minTime) {
+                minTime = Double.parseDouble(timeArray_oneIt.get(antIndex).toString()) ;
                 minIndex = antIndex;
             }
         }
